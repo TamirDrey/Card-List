@@ -110,7 +110,7 @@ const Card: React.FC<CardProps> = ({
                   setValue: setOccupation,
                 },
                 {
-                  label: "Average Monthly Income",
+                  label: "Average Monthly Salary",
                   type: "number",
                   value: monthlySalary,
                   setValue: setMonthlySalary,

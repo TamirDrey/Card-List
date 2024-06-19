@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import { useGetAllCardsQuery } from "../store/services/card-api";
 import { toast } from "react-toastify";
-import { checkSearchInputs } from "../utils/validation";
+import { checkSearchInput } from "../utils/validation";
 import { useAppDispatch } from "../store/hooks";
 import { logout } from "../store/redusers/authReducer";
 
@@ -24,7 +24,7 @@ const Home = () => {
       refetch();
       setUpdateTrigger(false);
     }
-  }, [updateTrigger]);
+  }, [updateTrigger,refetch,data]);
 
   const handleSearch = () => {
     if (validateSearch()) {
@@ -33,7 +33,7 @@ const Home = () => {
   };
 
   const validateSearch = (): boolean => {
-    return checkSearchInputs(parseFloat(cardNumber));
+    return checkSearchInput(parseFloat(cardNumber));
   };
 
   return (

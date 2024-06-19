@@ -64,7 +64,7 @@ export const checkForm = (
   return true;
 };
 
-export const checkSearchInputs = (
+export const checkSearchInput = (
   cardNumber: number,
 ): boolean => {
 
