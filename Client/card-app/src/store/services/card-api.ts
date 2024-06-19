@@ -14,7 +14,7 @@ export const cardApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getAllCards: builder.query<ICard[], { isBlocked?: string, cardNumber?: string, bankName?: string}>({
+    getAllCards: builder.query<ICard[], { isBlocked?: string, cardNumber?: string, bankCode?: string}>({
       query: (params) => {
         const queryString = new URLSearchParams(params).toString();
         return {
