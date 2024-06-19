@@ -5,3 +5,7 @@ Then run the command "dotnet run"
 To run the client make sure you are in the correct path /Client/card-app.
 Then run the "npm install" command to create folders that didn't go into git.
 Then run the command "npm run dev"
+
+To login enter:
+Email: John@example.com
+Password: eXample@12
