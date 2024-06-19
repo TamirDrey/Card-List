@@ -15,26 +15,24 @@ namespace CardApi.Services
     public class AuthService
     {
         private readonly IConfiguration _configuration;
-        private readonly string _dataFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data.json");
+        private readonly User _user;
 
         public AuthService(IConfiguration configuration)
         {
             _configuration = configuration;
+            _user = Data.User;
         }
 
         public async Task<User> AuthenticateUser(string email, string password)
         {
             User user = null;
 
-            // In real, this would fetch user from database
-            var stream = new FileStream(_dataFilePath, FileMode.Open, FileAccess.Read);
-            var jsonDocument = await JsonDocument.ParseAsync(stream);
-            var userDB = jsonDocument.RootElement.GetProperty("user");
-
-            if (userDB.GetProperty("Email").GetString().Equals(email) && userDB.GetProperty("Password").GetString().Equals(password))
+            // Compare provided credentials with the stored user data
+            if (_user.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && _user.Password.Equals(password))
             {
-                user = new User { Name = userDB.GetProperty("Name").GetString(), Email = userDB.GetProperty("Email").GetString() };
+                user = new User { Name = _user.Name, Email = _user.Email };
             }
+
             return user;
 
         }
