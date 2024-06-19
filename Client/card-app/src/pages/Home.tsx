@@ -24,16 +24,16 @@ const Home = () => {
       refetch();
       setUpdateTrigger(false);
     }
-  }, [updateTrigger, refetch, data]);
+  }, [updateTrigger]);
 
   const handleSearch = () => {
-    validateSearch();
-    setUpdateTrigger(true);
+    if (validateSearch()) {
+      setUpdateTrigger(true);
+    }
   };
 
   const validateSearch = (): boolean => {
-    const isSearchValid = checkSearchInputs(parseFloat(cardNumber));
-    return isSearchValid;
+    return checkSearchInputs(parseFloat(cardNumber));
   };
 
   return (
@@ -47,12 +47,28 @@ const Home = () => {
       <div className="flex flex-col items-center min-h-screen bg-gray-100">
         <div className="flex flex-col md:flex-row justify-around items-center w-full p-4">
           <input
-            type="text"
+            type="number"
             placeholder="Card Number"
             value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
+            onChange={(e) => {
+              setCardNumber(e.target.value);
+              if (e.target.value.length < 16) {
+                setUpdateTrigger(false);
+              }
+            }}
             className="p-2 border rounded mb-2 md:mb-0"
           />
+          <button
+            onClick={handleSearch}
+            disabled={cardNumber.length !== 16}
+            className={`p-2 text-white rounded ${
+              cardNumber.length === 16 ? "bg-blue-500" : "bg-gray-500"
+            }`}
+          >
+            {cardNumber.length === 16
+              ? "Search"
+              : "At least 16 digits to search"}
+          </button>
           <select
             value={bankCode}
             onChange={(e) => setBankCode(e.target.value)}
@@ -72,12 +88,6 @@ const Home = () => {
             <option value="true">Blocked</option>
             <option value="false">Unblocked</option>
           </select>
-          <button
-            onClick={handleSearch}
-            className="p-2 bg-blue-500 text-white rounded"
-          >
-            Search
-          </button>
         </div>
         {isLoading ? (
           <div>Loading...</div>
