@@ -14,11 +14,14 @@ export const cardApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getAllCards: builder.query<ICard[], null>({
-      query: () => ({
-        url: "/",
-        method: "GET",
-      }),
+    getAllCards: builder.query<ICard[], { isBlocked?: string, cardNumber?: string, bankName?: string}>({
+      query: (params) => {
+        const queryString = new URLSearchParams(params).toString();
+        return {
+          url: `?${queryString}`,
+          method: 'GET',
+        };
+      },
     }),
     IncreaseCreditLimit: builder.mutation({
       query: (payload) => ({

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import { setUser } from "../redusers/authReducer";
 
 const BASE_URL = "http://localhost:5116/api/User";
 
@@ -20,16 +20,35 @@ export const authApi = createApi({
         method: "POST",
         body: payload,
       }),
-      async onQueryStarted(payload, { queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          localStorage.setItem("accessToken", data.token);
+          if (data.token) {
+            localStorage.setItem("accessToken", data.token);
+            dispatch(setUser());
+          }
         } catch (error) {
           console.error(error);
+        }
+      },
+    }),
+    authMe: builder.query({
+      query: () => ({
+        url: "/auth-me",
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.token) {
+            dispatch(setUser());
+          }
+        } catch (error) {
+          console.error(error);
+          localStorage.removeItem("accessToken");
         }
       },
     }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useAuthMeQuery } = authApi;

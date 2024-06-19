@@ -1,4 +1,5 @@
 using CardApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardApi.controllers
@@ -27,7 +28,14 @@ namespace CardApi.controllers
             }
 
             return response;
+        }
 
+        [HttpGet("auth-me")]
+        [Authorize]
+        public IActionResult getUser([FromHeader(Name = "Authorization")] string token)
+        {
+            if (token == null) return Unauthorized(new { messege = "Not authorized, no token" });
+            return Ok(new { token = token});
         }
     }
 }

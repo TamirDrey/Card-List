@@ -63,3 +63,21 @@ export const checkForm = (
 
   return true;
 };
+
+export const checkSearchInputs = (
+  cardNumber: number,
+  bankName: string
+): boolean => {
+
+  if (!(/^\d{16}$/.test(cardNumber.toString()) && cardNumber > 0)) {
+    toast.error("Card number must be exactly 16 digits and a positive number.");
+    return false;
+  }
+
+  if (typeof bankName !== "string" || bankName.trim() === "") {
+    toast.error("Bank name is required");
+    return false;
+  }
+
+  return true;
+};
