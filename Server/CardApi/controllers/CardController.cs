@@ -16,6 +16,9 @@ namespace CardApi.controllers
             _bankService = bankService;
         }
 
+
+        // GET http://localhost:[port]/api/Card
+        // access private
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<Card>>> GetCards([FromQuery] bool? isBlocked, [FromQuery] string cardNumber, [FromQuery] int? bankCode)
@@ -31,6 +34,8 @@ namespace CardApi.controllers
             }
         }
 
+        // GET http://localhost:[port]/api/Card/IncreaseCreditLimit
+        // access private
         [HttpPut("IncreaseCreditLimit")]
         [Authorize]
         public async Task<ActionResult> IncreaseCreditLimit([FromBody] UpdateCardLimit request)

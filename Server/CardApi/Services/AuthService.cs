@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using CardApi.Entities;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CardApi.Services
@@ -27,7 +21,7 @@ namespace CardApi.Services
         {
             User user = null;
 
-            // Compare provided credentials with the stored user data
+            // Compare provided credentials with the stored user data (in real from the db)
             if (_user.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && _user.Password.Equals(password))
             {
                 user = new User { Name = _user.Name, Email = _user.Email };
@@ -37,6 +31,7 @@ namespace CardApi.Services
 
         }
 
+        // Generate Token to existing user
         public string GenerateToken(string email, string password)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
@@ -56,11 +51,6 @@ namespace CardApi.Services
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-
         }
-
-
-
-
     }
 }

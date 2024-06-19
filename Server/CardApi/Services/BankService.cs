@@ -1,4 +1,3 @@
-using System.Text.Json;
 using CardApi.Entities;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -8,7 +7,6 @@ namespace CardApi.Services
     {
         private readonly IMemoryCache _cache;
         private readonly IConfiguration _configuration;
-        private readonly string _dataFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data.json");
         private const string BankCacheKey = "BankCacheKey";
 
         private readonly List<Card> _cards;

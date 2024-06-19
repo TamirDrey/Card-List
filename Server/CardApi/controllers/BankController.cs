@@ -16,6 +16,8 @@ namespace CardApi.controllers
             _bankService = bankService;
         }
 
+        // GET http://localhost:[port]/api/Bank
+        // access private
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<Bank>>> GetAll()
@@ -27,7 +29,7 @@ namespace CardApi.controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(404, new {error = ex.Message });
+                return StatusCode(404, new { error = ex.Message });
             }
         }
     }

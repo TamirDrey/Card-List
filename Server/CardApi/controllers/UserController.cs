@@ -15,6 +15,8 @@ namespace CardApi.controllers
             _authService = authService;
         }
 
+        // GET http://localhost:[port]/api/User
+        // access public
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginPayload payload)
         {
@@ -30,12 +32,14 @@ namespace CardApi.controllers
             return response;
         }
 
+        // GET http://localhost:[port]/api/User/auth-me
+        // access private
         [HttpGet("auth-me")]
         [Authorize]
         public IActionResult getUser([FromHeader(Name = "Authorization")] string token)
         {
             if (token == null) return Unauthorized(new { messege = "Not authorized, no token" });
-            return Ok(new { token = token});
+            return Ok(new { token = token });
         }
     }
 }
