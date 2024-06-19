@@ -10,6 +10,7 @@ interface CardProps {
   code: number;
   creditLimit: number;
   isBlocked: boolean;
+  onUpdate: () => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -18,11 +19,13 @@ const Card: React.FC<CardProps> = ({
   code,
   creditLimit,
   isBlocked,
+  onUpdate
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [requestedAmount, setRequestedAmount] = useState("");
   const [occupation, setOccupation] = useState("");
   const [monthlySalary, setMonthlySalary] = useState("");
+  const [IncreaseCreditLimit] = useIncreaseCreditLimitMutation();
   
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => {
@@ -41,7 +44,6 @@ const Card: React.FC<CardProps> = ({
     );
     return isFormValid;
   };
-  const [IncreaseCreditLimit] = useIncreaseCreditLimitMutation();
   
   const handleSubmit = async () => {
     await IncreaseCreditLimit({
@@ -55,6 +57,7 @@ const Card: React.FC<CardProps> = ({
         if (data) {
           toast.success(`${data.message}`);
           closeModal();
+          onUpdate();
         }
       })
       .catch((err) => {
